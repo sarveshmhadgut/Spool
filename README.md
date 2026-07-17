@@ -1,7 +1,5 @@
 # Spool – YouTube Video Summarizer
 
-> **Note:** This is a personal project and not a production app.
-
 Spool turns the typical YouTube viewing experience into an interactive chat. Instead of manually scrubbing through long videos, it uses LangChain to orchestrate a smart retrieval workflow—combining transcripts, hybrid search, and LLM reasoning—to give you a chatbot that actually researches and answers your questions based on the video content.
 
 ## What makes it interesting
