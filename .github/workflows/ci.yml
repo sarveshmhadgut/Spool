@@ -1,0 +1,49 @@
+name: Spool CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    name: Lint & Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+      fail-fast: false
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Check code formatting (Ruff)
+        run: uv run ruff format --check src/
+
+      - name: Lint code (Ruff)
+        run: uv run ruff check src/
+
+      - name: Type check (Mypy)
+        run: uv run mypy src --explicit-package-bases --ignore-missing-imports
+
+      - name: Run test suite (Pytest)
+        env:
+          GOOGLE_API_KEY: "goofy-ahh-google-key"
+          LANGCHAIN_API_KEY: "goofy-ahh-langchain-key"
+        run: uv run pytest tests/

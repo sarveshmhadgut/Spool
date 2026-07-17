@@ -1,0 +1,18 @@
+LLM:
+  model: "gemini-3.1-pro-preview"
+  temperature: 0.0
+
+EMBEDDINGS:
+  model: "gemini-embedding-001"
+
+RETRIEVER:
+  k: 5
+
+STORE_RETRIEVER:
+  search_type: "similarity"
+  search_kwargs:
+    k: 3
+
+SPLITTER:
+  chunk_size: 1000
+  chunk_overlap: 200
